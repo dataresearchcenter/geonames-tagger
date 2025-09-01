@@ -1,6 +1,6 @@
 [project]
 name = "geonames_tagger"
-version = "0.1.2"
+version = "1.0.0"
 description = "followthemoney query dsl and io helpers"
 authors = [
     { name = "OCCRP Data Team", email = "data@occrp.org" },
