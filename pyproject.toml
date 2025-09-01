@@ -1,0 +1,53 @@
+[project]
+name = "geonames_tagger"
+version = "0.1.2"
+description = "followthemoney query dsl and io helpers"
+authors = [
+    { name = "OCCRP Data Team", email = "data@occrp.org" },
+    { name = "Friedrich Lindenberg", email = "friedrich@pudo.org"},
+    { name = "Simon Wörpel", email = "simon.woerpel@pm.me" }]
+license = "MIT"
+readme = "README.md"
+classifiers = [
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.11,<4"
+dependencies = [
+    "ahocorasick-rs (>=0.22.2,<0.23.0)",
+    "normality (>=3.0.1,<4.0.0)",
+    "anystore (>=0.3.10,<0.4.0)",
+    "jellyfish (>=1.2.0,<2.0.0)",
+]
+
+[project.scripts]
+geonames-tagger = "geonames_tagger.cli:cli"
+
+[project.urls]
+Homepage = "https://github.com/dataresearchcenter/geonames_tagger"
+Documentation = "https://github.com/dataresearchcenter/geonames_tagger"
+Repository = "https://github.com/dataresearchcenter/geonames_tagger"
+Issues = "https://github.com/dataresearchcenter/geonames_tagger/issues"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=7.4.3,<9.0.0"
+pytest-cov = ">=4.1,<7.0"
+pytest-env = "^1.1.1"
+black = ">=23.11,<26.0"
+isort = "^6.0.1"
+mypy = "^1.17.1"
+pre-commit = "^4.0.1"
+flake8 = ">=6.1,<8.0"
+ipdb = "^0.13.13"
+bump2version = "^1.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest_env]
+DEBUG = 1
