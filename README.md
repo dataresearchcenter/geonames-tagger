@@ -27,9 +27,22 @@ Usage of the GeoNames data is licensed under a [Creative Commons Attribution 4.0
 
 ### cli
 
-    echo "I am from Berlin, Germany" | geonames-tagger tag
+    echo "I just visited Sant Julia de loria last week" | geonames-tagger tag
 
 this results in the following json response:
+
+```json
+{
+  "name": "sant julia de loria",
+  "caption": [
+    "Sant Julià de Lòria"
+  ],
+  "id": [
+    3039162,
+    3039163
+  ]
+}
+```
 
 
 ## python
