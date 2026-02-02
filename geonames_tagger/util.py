@@ -2,8 +2,8 @@ import csv
 import io
 import zipfile
 
-from anystore.io import Uri, smart_open
-from anystore.types import SDictGenerator
+from anystore.io import smart_open
+from anystore.types import SDictGenerator, Uri
 from anystore.util import clean_dict
 from normality import normalize, squash_spaces
 

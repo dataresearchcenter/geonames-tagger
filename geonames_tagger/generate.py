@@ -3,15 +3,13 @@ from threading import RLock
 
 from ahocorasick_rs import AhoCorasick
 from anystore.io import (
-    SDict,
-    SDictGenerator,
-    Uri,
     logged_items,
     smart_stream_csv,
     smart_stream_json,
     smart_write_json,
 )
 from anystore.logging import get_logger
+from anystore.types import SDict, SDictGenerator, Uri
 from anystore.util import Took
 
 from geonames_tagger.settings import Settings
