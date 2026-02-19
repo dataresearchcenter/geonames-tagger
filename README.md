@@ -1,7 +1,7 @@
 [![geonames-tagger on pypi](https://img.shields.io/pypi/v/geonames-tagger)](https://pypi.org/project/geonames-tagger/)
 [![PyPI Downloads](https://static.pepy.tech/badge/geonames-tagger/month)](https://pepy.tech/projects/geonames-tagger)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/geonames-tagger)](https://pypi.org/project/geonames-tagger/)
-[![Python test and package](https://github.com/dataresearchcenter/geonames-tagger/actions/workflows/python.yml/badge.svg)](https://github.com/dataresearchcenter/geonames-tagger/actions/workflows/python.yml)
+[![Python test and package](https://github.com/dataresearchcenter/geonames-tagger/actions/workflows/build.yml/badge.svg)](https://github.com/dataresearchcenter/geonames-tagger/actions/workflows/build.yml)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 [![Coverage Status](https://coveralls.io/repos/github/dataresearchcenter/geonames-tagger/badge.svg?branch=main)](https://coveralls.io/github/dataresearchcenter/geonames-tagger?branch=main)
 [![AGPLv3+ License](https://img.shields.io/pypi/l/geonames-tagger)](./LICENSE)
