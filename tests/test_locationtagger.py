@@ -3,12 +3,15 @@ from pathlib import Path
 FIXTURES_PATH = (Path(__file__).parent / "fixtures").absolute()
 
 
-def test_locationtagger(monkeypatch, tmp_path):
-    monkeypatch.setenv("GEONAMES_DB", str(tmp_path))
+def test_locationtagger(monkeypatch):
+    monkeypatch.setenv("GEONAMES_PLACES", str(FIXTURES_PATH / "places.tsv"))
 
-    from geonames_tagger import generate, tagger
+    from geonames_tagger import tagger
 
-    generate.build_automaton_data(FIXTURES_PATH / "places.csv")
+    tagger._load.cache_clear()
+    tagger.AHO = None
+    tagger.DB = None
+    tagger.settings = tagger.Settings()
 
     result = list(tagger.tag_locations("Sant Julia de Loria"))[0]
     assert result.model_dump() == {

@@ -45,7 +45,8 @@ TARGET_FIELDNAMES = (
 )
 
 FEATURES = ("A", "P")  # admin areas and cities, villages
-MIN_NAME_LENGTH = 8
+MIN_NAME_LENGTH = 8  # for P (cities): drop short ambiguous city names
+MIN_NAME_LENGTH_A = 4  # for A (admin): looser, countries like "Iran" are 4 chars
 MIN_POPULATION = 5_000
 
 PLACES_FIELDNAMES = (
@@ -70,20 +71,23 @@ def iter_source(uri: Uri) -> SDictGenerator:
                 for row in csv.DictReader(
                     th, fieldnames=SOURCE_FIELDNAMES, delimiter="\t"
                 ):
-                    if row["feature class"] in FEATURES:
-                        if row["feature class"] == "P":
-                            if (
-                                len(row["name"]) < MIN_NAME_LENGTH
-                                or int(row.get("population", 0)) < MIN_POPULATION
-                            ):
-                                continue
-                        yield clean_dict(
-                            {
-                                k.replace(" ", "_"): v
-                                for k, v in row.items()
-                                if k in TARGET_FIELDNAMES
-                            }
-                        )
+                    if row["feature class"] not in FEATURES:
+                        continue
+                    pop = int(row.get("population") or 0)
+                    name_len = len(row["name"])
+                    if row["feature class"] == "P":
+                        if name_len < MIN_NAME_LENGTH or pop < MIN_POPULATION:
+                            continue
+                    else:  # "A" — admin areas: less strict on length, same on pop
+                        if name_len < MIN_NAME_LENGTH_A or pop < MIN_POPULATION:
+                            continue
+                    yield clean_dict(
+                        {
+                            k.replace(" ", "_"): v
+                            for k, v in row.items()
+                            if k in TARGET_FIELDNAMES
+                        }
+                    )
 
 
 def text_norm(text: str) -> str:

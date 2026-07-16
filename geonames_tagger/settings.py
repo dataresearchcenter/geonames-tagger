@@ -1,11 +1,8 @@
-from pathlib import Path
-
 from anystore.settings import BaseSettings
-from anystore.types import Uri
-from pydantic import Field
 from pydantic_settings import SettingsConfigDict
 
 DEFAULT_SOURCE_URI = "https://download.geonames.org/export/dump/allCountries.zip"
+DEFAULT_PLACES = "geonames.db/places.tsv"
 
 
 class Settings(BaseSettings):
@@ -15,13 +12,14 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    data_root: Path = Field(default=Path("geonames.db"), alias="geonames_db")
+    # Uri of the prebuilt places.tsv — any anystore uri works (local path,
+    # `s3://`, `http(s)://`, ...). Env: GEONAMES_PLACES.
+    places: str = DEFAULT_PLACES
     source_uri: str = DEFAULT_SOURCE_URI
-    places_csv: Path | None = None
-    automaton_data: Uri | None = None
-
-    def get_places_path(self) -> Path:
-        return self.places_csv or self.data_root / "places.csv"
-
-    def get_automaton_data_uri(self) -> Uri:
-        return self.automaton_data or self.data_root / "automaton.json"
+    # Minimum normalized length for variants drawn from GeoNames
+    # `alternatenames`. Short alternates account for most false positives
+    # (Sind→Sindh, Mein→Maine, Kern→Kern County, VIII→…, Allen→Allen County).
+    # Canonical names and asciinames are unaffected. Lower toward 4 if you
+    # need to match transliterations like "Roma" (4); raise higher for
+    # stricter canonical-leaning matching.
+    min_alternate_length: int = 6
