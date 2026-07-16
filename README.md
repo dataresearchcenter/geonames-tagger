@@ -13,7 +13,7 @@
 
 This library finds the names of places in a string of text and tries to associate them with known locations from [geonames.org](https://www.geonames.org/). The goal is to tag a piece (or set) of text with mentioned locations, optionally to refine location names to a more canonized value. As well, the corresponding geoname IDs are returned in a tagging result.
 
-As opposed to the original `countrytagger`, this library doesn't ship with the data included, so one needs to build it locally and then use it with the `GEONAMES_DB` env var set.
+As opposed to the original `countrytagger`, this library doesn't ship with the data included, so one needs to build it first and then point the `GEONAMES_PLACES` env var at the built `places.tsv`. Thanks to [anystore](https://github.com/investigativedata/anystore), this can be a local path (the default: `./geonames.db/places.tsv`) or any remote uri, e.g. `s3://mybucket/places.tsv` or `https://example.org/places.tsv`.
 
 ## Data
 
@@ -44,26 +44,38 @@ this results in the following json response:
 }
 ```
 
+Input and output are uris handled by `anystore`, so `-i` / `-o` accept local paths, `s3://`, `http(s)://` or `-` for stdin/stdout (the default).
 
-## python
+By default, duplicate matches are aggregated: each location is emitted once per input, no matter how many lines mention it. Use `--no-aggregate` to stream one result per match instead:
+
+    geonames-tagger tag -i report.txt --no-aggregate
+
+
+### python
 
 ```python
-from geonames_tagger import tag_location:
+from geonames_tagger import tag_locations
 
-text = 'I am in Berlin'
+text = "I am in Berlin"
 for result in tag_locations(text):
-    print(result.name)  # the normalized but original name found in text
+    print(result.name)  # the normalized name found in the text
     print(result.caption)  # the canonical names as list from GeoNames db
-    print(result.ids)  # the GeoName IDs
+    print(result.id)  # the GeoNames IDs as list
 ```
 
 ## Building the data
 
-You can re-generate the place database like this:
+You can (re-)generate the places database like this:
 
     geonames-tagger build
 
-This will download GeoNames and parse it into the format used by this library.
+This will download the full [GeoNames dump](https://download.geonames.org/export/dump/) (`allCountries.zip`, ~400 MB) and parse it into the format used by this library, written to `$GEONAMES_PLACES` (default: `./geonames.db/places.tsv`).
+
+Use `-i` to build from an already downloaded dump and `-o` to override the output uri:
+
+    geonames-tagger build -i ./allCountries.zip -o s3://mybucket/places.tsv
+
+During the build, name variants that would produce noisy matches are dropped: very short alternate spellings (tune via `GEONAMES_MIN_ALTERNATE_LENGTH`, default 6), numeric codes, and names that are common dictionary words in major languages (unless the place is big enough to be meant anyway, like Berlin or China). At tagging time, matches that are part of a person's name (e.g. "Heinrich XIII") are suppressed as well.
 
 
 ## License and Copyright
