@@ -1,7 +1,7 @@
 [project]
 name = "geonames_tagger"
 version = "1.0.2"
-description = "followthemoney query dsl and io helpers"
+description = "Extract names of places from text based on geonames db"
 authors = [
     { name = "OCCRP Data Team", email = "data@occrp.org" },
     { name = "Friedrich Lindenberg", email = "friedrich@pudo.org"},
@@ -15,13 +15,16 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.11,<3.15"
 dependencies = [
     "ahocorasick-rs (>=1.0.3,<2.0.0)",
-    "normality (>=3.0.2,<4.0.0)",
-    "anystore (>=1.1.0,<2.0.0)",
+    "normality (>=3.1.0,<4.0.0)",
+    "anystore (>=1.2.5,<2.0.0)",
     "jellyfish (>=1.2.1,<2.0.0)",
+    "wordfreq (>=3.1.1,<4.0.0)",
+    "rigour (>=2.1.2,<3.0.0)",
 ]
 
 [project.scripts]
